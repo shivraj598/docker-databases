@@ -1,0 +1,28 @@
+services:
+  # MySQL database service
+  db:
+    image: mysql:8.4
+    container_name: mysql_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: chaiaurcode # root password
+      MYSQL_DATABASE: chaiDB # default database name
+      MYSQL_USER: chai # application username
+      MYSQL_PASSWORD: chai # application password
+    ports:
+      - "3306:3306" # MySQL default port
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # Adminer UI for managing MySQL
+  adminer:
+    image: adminer:latest
+    container_name: mysql_adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080" # Adminer web UI
+    depends_on:
+      - db
+
+volumes:
+  mysql_data: # persistent storage for MySQL data
