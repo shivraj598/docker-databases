@@ -1,0 +1,16 @@
+services:
+  # MongoDB database service
+  mongo:
+    image: mongo:7.0
+    container_name: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root # MongoDB admin username
+      MONGO_INITDB_ROOT_PASSWORD: example # MongoDB admin password
+    ports:
+      - "27017:27017" # MongoDB default port
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data: # persistent storage for MongoDB data
