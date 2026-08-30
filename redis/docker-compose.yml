@@ -1,0 +1,26 @@
+services:
+  # Redis in-memory data store
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379" # Redis default port
+    volumes:
+      - redis_data:/data
+
+  # Redis Insight GUI for monitoring and debugging Redis
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    container_name: redisinsight
+    restart: unless-stopped
+    ports:
+      - "8001:8001" # Redis Insight web UI
+    volumes:
+      - redisinsight_data:/db
+    depends_on:
+      - redis
+
+volumes:
+  redis_data: # persistent storage for Redis data
+  redisinsight_data: # persistent storage for Redis Insight metadata
