@@ -1,0 +1,27 @@
+services:
+  # PostgreSQL database service
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: chaiDB # default database name
+      POSTGRES_USER: chaiaurcode # database username
+      POSTGRES_PASSWORD: chaiaurcode # database password
+    ports:
+      - "5432:5432" # PostgreSQL default port
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Adminer UI for managing PostgreSQL
+  adminer:
+    image: adminer:latest
+    container_name: postgres_adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080" # Adminer web UI
+    depends_on:
+      - db
+
+volumes:
+  postgres_data: # persistent storage for PostgreSQL data
